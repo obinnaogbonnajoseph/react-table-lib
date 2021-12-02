@@ -4,6 +4,7 @@ import './TableBody.css';
 import { borderBottomClass, getRowClass, padding } from '../commons';
 import Control from '../../Control/Control';
 import Icon from '../../Icon/Icon';
+import More from '../More/More.lazy';
 
 const TableBody = (props) => {
 
@@ -35,6 +36,11 @@ const TableBody = (props) => {
                 }
               }}
             </td>)
+          }
+          {
+            props.moreOptionsLength && <td>
+              <More row={row} />
+            </td>
           }
         </tr>)
       }
