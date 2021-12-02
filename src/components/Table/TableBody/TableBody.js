@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './TableBody.css';
 import { borderBottomClass, getRowClass, padding } from '../commons';
@@ -7,10 +7,19 @@ import Icon from '../../Icon/Icon';
 import More from '../More/More.lazy';
 
 const TableBody = (props) => {
+  const [currentMoreOptionId, setCurrentMoreOptionId] = useState(-5)
 
   const isLast = (arrayLength, index) => {
     return (arrayLength - 1) === index;
   }
+
+  const setCurrentOptionId = (id) => setCurrentMoreOptionId(id)
+
+  const convertRowToData = (row) => {
+
+  }
+
+  const moreClickAction = (clickAction, row) => clickAction(convertRowToData(row))
 
   return (
     <tbody>
@@ -39,7 +48,10 @@ const TableBody = (props) => {
           }
           {
             props.moreOptionsLength && <td>
-              <More row={row} />
+              <More id={row.id}
+                onSetCurrentOptionId={(id) => setCurrentOptionId(id)}
+                currentOptionId={currentMoreOptionId}
+                onMoreClick={(_e, clickAction) => moreClickAction(clickAction, row)} />
             </td>
           }
         </tr>)
