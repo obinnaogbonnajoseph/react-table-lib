@@ -34,7 +34,7 @@ const TableHead = (props) => {
       <Control />
     </th>}
     {props.headers.map(header => (
-      <th className={() => (`${borderBottomClass(false)} ${padding()} text-left`)}>
+      <th key={header} className={() => (`${borderBottomClass(false)} ${padding()} text-left`)}>
         <div onClick={sortColumn(header)} className={canSort(header) && 'cursor-pointer'}>
           <span className="text-subtitle2 text-neutral-700">{header}</span>
           <Icon />
