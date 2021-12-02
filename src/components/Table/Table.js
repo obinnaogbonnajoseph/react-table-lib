@@ -17,7 +17,10 @@ const Table = (props) => (
   </div>
 );
 
-Table.propTypes = {};
+Table.propTypes = {
+  caption: PropTypes.string,
+  paginate: PropTypes.bool
+};
 
 Table.defaultProps = {};
 
