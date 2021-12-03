@@ -24,37 +24,40 @@ const TableBody = (props) => {
   return (
     <tbody>
       {
-        props.rows.map((row, index) => <tr key={row.id} className={getRowClass(isLast(row.length, index), props.isSelected(row))}>
-          {props.checkbox && <td className={() => (`${borderBottomClass(isLast(row.length, index))} ${padding(props.size)}`)}>
-            <Control />
-          </td>}
-          {
-            row.value.map(cell => <td className={() => (`${borderBottomClass(isLast(row.length, index))} ${padding(props.size)}`)}>
-              {() => {
-                switch (cell.type) {
-                  case 'text':
-                    return <div>
-                      {cell.img && <img className="mr-8" alt={cell.text} src={cell.img} />}
-                      {cell.icon && <Icon className="mr-8" name={cell.icon} />}
-                      <span class="text-body1-regular text-neutral-700">{cell.text}</span>
-                    </div>
-                  case 'template':
-                    return <>{props.template}</>
-                  default:
-                    return <></>
-                }
-              }}
-            </td>)
-          }
-          {
-            props.moreOptionsLength && <td>
-              <More id={row.id}
-                onSetCurrentOptionId={(id) => setCurrentOptionId(id)}
-                currentOptionId={currentMoreOptionId}
-                onMoreClick={(_e, clickAction) => moreClickAction(clickAction, row)} />
-            </td>
-          }
-        </tr>)
+        props.rows.map((row, index) =>
+          <tr key={row.id} className={getRowClass(isLast(row.length, index), props.isSelected(row))}>
+            {props.checkbox && <td className={() => (`${borderBottomClass(isLast(row.length, index))} ${padding(props.size)}`)}>
+              <Control />
+            </td>}
+            {
+              row.value.map(cell =>
+                <td className={() => (`${borderBottomClass(isLast(row.length, index))} ${padding(props.size)}`)}>
+                  {() => {
+                    switch (cell.type) {
+                      case 'text':
+                        return <div>
+                          {cell.img && <img className="mr-8" alt={cell.text} src={cell.img} />}
+                          {cell.icon && <Icon className="mr-8" name={cell.icon} />}
+                          <span class="text-body1-regular text-neutral-700">{cell.text}</span>
+                        </div>
+                      case 'template':
+                        return <>{props.template}</>
+                      default:
+                        return <></>
+                    }
+                  }}
+                </td>)
+            }
+            {
+              props.moreOptionsLength &&
+              <td>
+                <More id={row.id}
+                  onSetCurrentOptionId={(id) => setCurrentOptionId(id)}
+                  currentOptionId={currentMoreOptionId}
+                  onMoreClick={(_e, clickAction) => moreClickAction(clickAction, row)} />
+              </td>
+            }
+          </tr>)
       }
     </tbody>
 
