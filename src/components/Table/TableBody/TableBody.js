@@ -6,7 +6,7 @@ import Control from '../../Control/Control';
 import Icon from '../../Icon/Icon';
 import More from '../More/More';
 
-const TableBody = (props) => {
+const TableBody = ({ rows, isSelected, checkbox, size, moreOptionsLength, convertRowToData }) => {
   const [currentMoreOptionId, setCurrentMoreOptionId] = useState(-5)
 
   const isLast = (arrayLength, index) => {
@@ -15,28 +15,19 @@ const TableBody = (props) => {
 
   const setCurrentOptionId = (id) => setCurrentMoreOptionId(id)
 
-  const convertRowToData = (row) => {
-    const data = {};
-    for (let i = 0; i < props.headers.length; i++) {
-      const header = props.headers[i];
-      data[header] = row.value[i];
-    }
-    return data;
-  }
-
   const moreClickAction = (clickAction, row) => clickAction(convertRowToData(row))
 
   return (
     <tbody>
       {
-        props.rows.map((row, index) =>
-          <tr key={row.id} className={getRowClass(isLast(row.length, index), props.isSelected(row))}>
-            {props.checkbox && <td className={() => (`${borderBottomClass(isLast(row.length, index))} ${padding(props.size)}`)}>
+        rows.map((row, index) =>
+          <tr key={row.id} className={getRowClass(isLast(row.length, index), isSelected(row))}>
+            {checkbox && <td className={() => (`${borderBottomClass(isLast(row.length, index))} ${padding(size)}`)}>
               <Control />
             </td>}
             {
               row.value.map(cell =>
-                <td className={() => (`${borderBottomClass(isLast(row.length, index))} ${padding(props.size)}`)}>
+                <td className={() => (`${borderBottomClass(isLast(row.length, index))} ${padding(size)}`)}>
                   {() => {
                     switch (cell.type) {
                       case 'text':
@@ -46,7 +37,7 @@ const TableBody = (props) => {
                           <span class="text-body1-regular text-neutral-700">{cell.text}</span>
                         </div>
                       case 'template':
-                        return <>{props.template}</>
+                        return <>{cell.template}</>
                       default:
                         return <></>
                     }
@@ -54,7 +45,7 @@ const TableBody = (props) => {
                 </td>)
             }
             {
-              props.moreOptionsLength &&
+              moreOptionsLength &&
               <td>
                 <More id={row.id}
                   onSetCurrentOptionId={(id) => setCurrentOptionId(id)}
@@ -74,7 +65,9 @@ TableBody.propTypes = {
   isSelected: PropTypes.func,
   checkbox: PropTypes.bool,
   size: PropTypes.oneOf(['default' | 'dense']),
-  template: PropTypes.element
+  template: PropTypes.element,
+  moreOptionsLength: PropTypes.number,
+  convertRowToData: PropTypes.func
 };
 
 TableBody.defaultProps = {};

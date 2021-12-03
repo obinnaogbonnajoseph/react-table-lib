@@ -4,14 +4,16 @@ import './TableFooter.css';
 import { padding } from '../commons';
 import Icon from '../../Icon/Icon';
 
-const TableFooter = ({ size, itemsPerPage, selectedItemsPerPage, displayedStartIndex, displayedEndIndex, totalPages, page, changePage }) => {
+const TableFooter = ({ size, itemsPerPage, selectedItemsPerPage, displayedStartIndex, displayedEndIndex, totalPages, page, changePage, onSelectedItemChange }) => {
 
   const cursor = (condition) => condition ? 'cursor-not-allowed' : 'cursor-pointer'
+
+  const onSelectChange = e => onSelectedItemChange(e.target.value)
 
   return (
     <div className={() => (`${padding(size)} flex`)}>
       <span className="text-body1-regular text-neutral-600">Rows per page:</span>
-      <select className="mr-16">
+      <select onChange={onSelectChange} className="mr-16">
         {itemsPerPage.map(item =>
           <option selected={item === selectedItemsPerPage}>{item}</option>)}
       </select>
@@ -34,7 +36,8 @@ TableFooter.propTypes = {
   displayedEndIndex: PropTypes.number,
   totalPages: PropTypes.number,
   page: PropTypes.number,
-  changePage: PropTypes.func
+  changePage: PropTypes.func,
+  onSelectedItemChange: PropTypes.func
 };
 
 TableFooter.defaultProps = {};
