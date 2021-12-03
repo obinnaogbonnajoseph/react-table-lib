@@ -16,7 +16,12 @@ const TableBody = (props) => {
   const setCurrentOptionId = (id) => setCurrentMoreOptionId(id)
 
   const convertRowToData = (row) => {
-
+    const data = {};
+    for (let i = 0; i < props.headers.length; i++) {
+      const header = props.headers[i];
+      data[header] = row.value[i];
+    }
+    return data;
   }
 
   const moreClickAction = (clickAction, row) => clickAction(convertRowToData(row))
