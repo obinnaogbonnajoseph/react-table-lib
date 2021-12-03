@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './TableHead.css';
 import { getRowClass, padding, borderBottomClass } from '../commons';
-import { Control } from '../../Control/Control.lazy';
+import { Checkbox } from '../../Checkbox/Checkbox';
 import { Icon } from '../../Icon/Icon.lazy';
 
 const TableHead = ({ sortHeaders, rows, rowsHash, size, onSortColumn, moreOptionsLength, headers, checkbox }) => {
@@ -31,7 +31,7 @@ const TableHead = ({ sortHeaders, rows, rowsHash, size, onSortColumn, moreOption
 
   return (<thead className={getRowClass(false, false, size)}>
     {checkbox && <th className={() => (`${padding()} text-left ${borderBottomClass(false)}`)}>
-      <Control />
+      <Checkbox />
     </th>}
     {headers.map(header => (
       <th key={header} className={() => (`${borderBottomClass(false)} ${padding()} text-left`)}>
