@@ -4,7 +4,7 @@ import './TableBody.css';
 import { borderBottomClass, getRowClass, padding } from '../commons';
 import Control from '../../Control/Control';
 import Icon from '../../Icon/Icon';
-import More from '../More/More.lazy';
+import More from '../More/More';
 
 const TableBody = (props) => {
   const [currentMoreOptionId, setCurrentMoreOptionId] = useState(-5)

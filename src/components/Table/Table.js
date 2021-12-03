@@ -1,38 +1,49 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './Table.css';
-import { TableHead } from './TableHead/TableHead.lazy';
-import { TableBody } from './TableBody/TableBody.lazy';
-import { TableFooter } from './TableFooter/TableFooter.lazy';
+import { TableHead } from './TableHead/TableHead';
+import { TableBody } from './TableBody/TableBody';
+import { TableFooter } from './TableFooter/TableFooter';
 
 
-const Table = (props) => {
+const Table = ({ caption, sortHeaders, size, headers, checkbox, moreOptions, paginate }) => {
   const [rows, setRows] = useState([])
   const [rowsHash, setRowsHash] = useState([])
   const [headers, setHeaders] = useState([])
 
   return (<div className="flex flex-col w-max bg-neutral-100">
     <table>
-      <caption className="text-h4 text-neutral-800 text-left">{props.caption}</caption>
-      <TableHead sortHeaders={props.sortHeaders}
+      <caption className="text-h4 text-neutral-800 text-left">{caption}</caption>
+      <TableHead sortHeaders={sortHeaders}
         rows={rows}
         rowsHash={rowsHash}
         sortColumn={setRows}
-        size={props.size}
-        headers={props.headers}
-        checkbox={props.checkbox}
-        moreOptionsLength={props.moreOptions.length} />
+        size={size}
+        headers={headers}
+        checkbox={checkbox}
+        moreOptionsLength={moreOptions.length} />
       <TableBody />
     </table>
-    {props.paginate && <TableFooter />}
+    {paginate && <TableFooter />}
   </div>)
 };
 
 Table.propTypes = {
   caption: PropTypes.string,
-  paginate: PropTypes.bool
+  paginate: PropTypes.bool,
+  sortHeaders: PropTypes.arrayOf(PropTypes.string),
+  size: PropTypes.oneOf(['default', 'dense']),
+  headers: PropTypes.arrayOf(PropTypes.string),
+  checkbox: PropTypes.bool,
+  moreOptions: PropTypes.arrayOf(PropTypes.exact({
+    text: PropTypes.string,
+    icon: PropTypes.string,
+    action: PropTypes.func
+  }))
 };
 
-Table.defaultProps = {};
+Table.defaultProps = {
+  size: 'default'
+};
 
 export default Table;

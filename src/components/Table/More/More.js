@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './More.css';
-import Icon from '../../Icon/Icon.lazy';
+import Icon from '../../Icon/Icon';
 
 const More = ({ id, currentOptionId, onSetCurrentOptionId, moreOptions, onMoreClick }) => {
 
