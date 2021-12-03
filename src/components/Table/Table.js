@@ -163,17 +163,19 @@ Table.propTypes = {
   paginate: PropTypes.bool,
   sortHeaders: PropTypes.arrayOf(PropTypes.string),
   size: PropTypes.oneOf(['default', 'dense']),
-  headers: PropTypes.arrayOf(PropTypes.string),
   checkbox: PropTypes.bool,
   moreOptions: PropTypes.arrayOf(PropTypes.exact({
     text: PropTypes.string,
     icon: PropTypes.string,
     action: PropTypes.func
-  }))
+  })),
+  data: PropTypes.object.isRequired
 };
 
 Table.defaultProps = {
-  size: 'default'
+  size: 'default',
+  paginate: false,
+  checkbox: false
 };
 
 export default Table;
