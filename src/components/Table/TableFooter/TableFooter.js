@@ -15,7 +15,7 @@ const TableFooter = ({ size, itemsPerPage, selectedItemsPerPage, displayedStartI
       <span className="text-body1-regular text-neutral-600">Rows per page:</span>
       <select onChange={onSelectChange} className="mr-16">
         {itemsPerPage.map(item =>
-          <option selected={item === selectedItemsPerPage}>{item}</option>)}
+          <option key={item} selected={item === selectedItemsPerPage}>{item}</option>)}
       </select>
       <span className="text-neutral-700 mr-14">{() => `${displayedStartIndex}-${displayedEndIndex} of ${totalPages}`}</span>
       <span onClick={() => changePage(page - 1)} className={() => `${cursor(page === 1)} mr-12`}>

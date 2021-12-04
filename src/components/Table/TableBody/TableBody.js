@@ -6,7 +6,7 @@ import Checkbox from '../../Checkbox/Checkbox';
 import Icon from '../../Icon/Icon';
 import More from '../More/More';
 
-const TableBody = ({ rows, isSelected, checkbox, size, moreOptionsLength, convertRowToData }) => {
+const TableBody = ({ rows, isSelected, checkbox, size, moreOptionsLength, convertRowToData, toggleRow }) => {
   const [currentMoreOptionId, setCurrentMoreOptionId] = useState(-5)
 
   const isLast = (arrayLength, index) => {
@@ -23,11 +23,11 @@ const TableBody = ({ rows, isSelected, checkbox, size, moreOptionsLength, conver
         rows.map((row, index) =>
           <tr key={row.id} className={getRowClass(isLast(row.length, index), isSelected(row))}>
             {checkbox && <td className={() => (`${borderBottomClass(isLast(row.length, index))} ${padding(size)}`)}>
-              <Checkbox />
+              <Checkbox value={isSelected(row)} onChange={val => toggleRow(row, Boolean(val))} />
             </td>}
             {
-              row.value.map(cell =>
-                <td className={() => (`${borderBottomClass(isLast(row.length, index))} ${padding(size)}`)}>
+              row.value.map((cell, index) =>
+                <td key={cell?.text ?? index} className={() => (`${borderBottomClass(isLast(row.length, index))} ${padding(size)}`)}>
                   {() => {
                     switch (cell.type) {
                       case 'text':
@@ -67,7 +67,8 @@ TableBody.propTypes = {
   size: PropTypes.oneOf(['default' | 'dense']),
   template: PropTypes.element,
   moreOptionsLength: PropTypes.number,
-  convertRowToData: PropTypes.func
+  convertRowToData: PropTypes.func,
+  toggleRow: PropTypes.func
 };
 
 TableBody.defaultProps = {};

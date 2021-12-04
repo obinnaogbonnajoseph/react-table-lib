@@ -6,7 +6,7 @@ import { TableBody } from './TableBody/TableBody';
 import { TableFooter } from './TableFooter/TableFooter';
 
 
-const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, data }) => {
+const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, data, allSelectedRows }) => {
   const [rows, setRows] = useState([])
   const [rowsHash, setRowsHash] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
@@ -127,9 +127,45 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
     setSelectedItemsPerPage(val)
   }
 
+  const removeFromSelectedRows = (val, data) => {
+    const newRows = [...val].filter(item => {
+      const sameKeys = Object.keys(item).length === Object.keys(data).length;
+      if (sameKeys) {
+        const keys = Object.keys(item);
+        for (let i = 0; i < keys.length; i++) {
+          const key = keys[i];
+          if (key !== 'template' && item[key] !== data[key]) return true;
+        }
+      } else return true
+      return false
+    })
+    allSelectedRows(newRows);
+    return newRows;
+  }
+
+  const toggleRow = (row, add) => {
+    const data = convertRowToData(row);
+    setSelectedRows(val => {
+      if (add) {
+        allSelectedRows([...val, data])
+        return [...val, data]
+      }
+      return removeFromSelectedRows(val, data)
+    })
+  }
+
+  const toggleAll = (add) => {
+    setSelectedRows(_val => {
+      let newRows = [];
+      if (add) newRows = [...paginatedData];
+      allSelectedRows(newRows)
+      return newRows
+    })
+  }
+
   return (<div className="flex flex-col w-max bg-neutral-100">
     <table>
-      <caption className="text-h4 text-neutral-800 text-left">{caption}</caption>
+      {caption && <caption className="text-h4 text-neutral-800 text-left">{caption}</caption>}
       <TableHead sortHeaders={sortHeaders}
         rows={rows}
         rowsHash={rowsHash}
@@ -137,12 +173,15 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
         size={size}
         headers={headers}
         checkbox={checkbox}
+        checkboxVal={selectedRows.length === paginatedData.length}
+        toggleAll={val => toggleAll(val)}
         moreOptionsLength={moreOptions.length} />
       <TableBody
         rows={rows}
         isSelected={(row) => isSelected(row)}
         checkbox={checkbox}
         size={size}
+        toggleRow={(row, add) => toggleRow(row, add)}
         convertRowToData={row => convertRowToData(row)}
         moreOptionsLength={moreOptions?.length ?? 0} />
     </table>
@@ -169,7 +208,8 @@ Table.propTypes = {
     icon: PropTypes.string,
     action: PropTypes.func
   })),
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  allSelectedRows: PropTypes.func
 };
 
 Table.defaultProps = {

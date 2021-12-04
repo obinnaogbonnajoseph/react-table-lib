@@ -5,7 +5,7 @@ import { getRowClass, padding, borderBottomClass } from '../commons';
 import { Checkbox } from '../../Checkbox/Checkbox';
 import { Icon } from '../../Icon/Icon.lazy';
 
-const TableHead = ({ sortHeaders, rows, rowsHash, size, onSortColumn, moreOptionsLength, headers, checkbox }) => {
+const TableHead = ({ sortHeaders, rows, rowsHash, size, onSortColumn, moreOptionsLength, headers, checkbox, checkboxVal, toggleAll }) => {
 
   const canSort = (header) => {
     return sortHeaders.some(val => val.value === header);
@@ -29,20 +29,21 @@ const TableHead = ({ sortHeaders, rows, rowsHash, size, onSortColumn, moreOption
     }
   }
 
-  return (<thead className={getRowClass(false, false, size)}>
-    {checkbox && <th className={() => (`${padding()} text-left ${borderBottomClass(false)}`)}>
-      <Checkbox />
-    </th>}
-    {headers.map(header => (
-      <th key={header} className={() => (`${borderBottomClass(false)} ${padding()} text-left`)}>
-        <div onClick={sortColumn(header)} className={canSort(header) && 'cursor-pointer'}>
-          <span className="text-subtitle2 text-neutral-700">{header}</span>
-          <Icon />
-        </div>
-      </th>
-    ))}
-    {moreOptionsLength && <th className={borderBottomClass(false)} />}
-  </thead>)
+  return (
+    <thead className={getRowClass(false, false, size)}>
+      {checkbox && <th className={() => (`${padding()} text-left ${borderBottomClass(false)}`)}>
+        <Checkbox value={checkboxVal} onChange={val => toggleAll(Boolean(val))} />
+      </th>}
+      {headers.map(header => (
+        <th key={header} className={() => (`${borderBottomClass(false)} ${padding()} text-left`)}>
+          <div onClick={sortColumn(header)} className={canSort(header) && 'cursor-pointer'}>
+            <span className="text-subtitle2 text-neutral-700">{header}</span>
+            {canSort(header) && <Icon />}
+          </div>
+        </th>
+      ))}
+      {moreOptionsLength && <th className={borderBottomClass(false)} />}
+    </thead>)
 };
 
 TableHead.propTypes = {
@@ -53,7 +54,9 @@ TableHead.propTypes = {
   rows: PropTypes.array,
   onSortColumn: PropTypes.func,
   rowsHash: PropTypes.array,
-  size: PropTypes.oneOf(['default', 'dense'])
+  size: PropTypes.oneOf(['default', 'dense']),
+  checkboxVal: PropTypes.func,
+  toggleAll: PropTypes.func
 };
 
 TableHead.defaultProps = {};
