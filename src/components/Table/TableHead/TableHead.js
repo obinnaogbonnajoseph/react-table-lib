@@ -31,18 +31,22 @@ const TableHead = ({ sortHeaders, rows, rowsHash, size, onSortColumn, moreOption
 
   return (
     <thead className={getRowClass(false, false, size)}>
-      {checkbox && <th className={() => (`${padding()} text-left ${borderBottomClass(false)}`)}>
-        <Checkbox value={checkboxVal} onChange={val => toggleAll(Boolean(val))} />
-      </th>}
-      {headers.map(header => (
-        <th key={header} className={() => (`${borderBottomClass(false)} ${padding()} text-left`)}>
-          <div onClick={sortColumn(header)} className={canSort(header) ? 'cursor-pointer' : ''}>
-            <span className="text-subtitle2 text-neutral-700">{header}</span>
-            {canSort(header) && <Icon />}
-          </div>
-        </th>
-      ))}
-      {Boolean(moreOptionsLength) && <th className={borderBottomClass(false)}></th>}
+      <tr>
+        {checkbox &&
+          <th className={`${padding()} text-left ${borderBottomClass(false)}`}>
+            <Checkbox value={checkboxVal} onChange={val => toggleAll(Boolean(val))} />
+          </th>}
+        {headers.map(header => (
+          <th key={header} className={`${borderBottomClass(false)} ${padding()} text-left`}>
+            <div onClick={sortColumn(header)} className={canSort(header) ? 'cursor-pointer' : ''}>
+              <span className="text-subtitle2 text-neutral-700">{header}</span>
+              {canSort(header) && <Icon />}
+            </div>
+          </th>
+        ))}
+        {Boolean(moreOptionsLength) && <th className={borderBottomClass(false)}></th>}
+      </tr>
+
     </thead>)
 };
 

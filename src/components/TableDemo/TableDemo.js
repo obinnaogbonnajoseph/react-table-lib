@@ -132,13 +132,13 @@ const TableDemo = () => {
   }, [data])
   return (
     <div className="flex flex-col">
-      <Table className={() => `my-20 ${borderBottom}`} data={normalData} caption="Normal table" />
-      {/* <Table className={() => `my-20 ${borderBottom}`} data={normalData} size="dense" caption="Dense Table" />
-      <Table className={() => `my-20 ${borderBottom}`} sortHeaders={sortHeaders} data={normalData} caption="Table with sort column" />
-      <Table className={() => `my-20 ${borderBottom}`} data={normalData} checkbox={true} caption="Table with checkbox" />
-      <Table className={() => `my-20 ${borderBottom}`} data={templateData} caption="Table with templates" />
-      <Table className={() => `my-20 ${borderBottom}`} data={normalData} moreOptions={moreOptions} caption="Table with more options" />
-      <Table className={() => `my-20 ${borderBottom}`} data={normalData} paginate={true} caption="Table with pagination" /> */}
+      <Table className={`my-20 ${borderBottom}`} data={normalData} caption="Normal table" />
+      {/* <Table className={`my-20 ${borderBottom}`} data={normalData} size="dense" caption="Dense Table" />
+      <Table className={`my-20 ${borderBottom}`} sortHeaders={sortHeaders} data={normalData} caption="Table with sort column" />
+      <Table className={`my-20 ${borderBottom}`} data={normalData} checkbox={true} caption="Table with checkbox" />
+      <Table className={`my-20 ${borderBottom}`} data={templateData} caption="Table with templates" />
+      <Table className={`my-20 ${borderBottom}`} data={normalData} moreOptions={moreOptions} caption="Table with more options" />
+      <Table className={`my-20 ${borderBottom}`} data={normalData} paginate={true} caption="Table with pagination" /> */}
     </div>
   )
 };

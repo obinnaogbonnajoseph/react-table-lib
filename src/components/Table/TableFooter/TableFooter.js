@@ -11,17 +11,17 @@ const TableFooter = ({ size, itemsPerPage, selectedItemsPerPage, displayedStartI
   const onSelectChange = e => onSelectedItemChange(e.target.value)
 
   return (
-    <div className={() => (`${padding(size)} flex`)}>
+    <div className={`${padding(size)} flex`}>
       <span className="text-body1-regular text-neutral-600">Rows per page:</span>
       <select onChange={onSelectChange} className="mr-16">
         {itemsPerPage.map(item =>
           <option key={item} selected={item === selectedItemsPerPage}>{item}</option>)}
       </select>
       <span className="text-neutral-700 mr-14">{() => `${displayedStartIndex}-${displayedEndIndex} of ${totalPages}`}</span>
-      <span onClick={() => changePage(page - 1)} className={() => `${cursor(page === 1)} mr-12`}>
+      <span onClick={() => changePage(page - 1)} className={`${cursor(page === 1)} mr-12`}>
         <Icon />
       </span>
-      <span onClick={() => changePage(page + 1)} className={() => `${cursor(page === totalPages)}`}>
+      <span onClick={() => changePage(page + 1)} className={`${cursor(page === totalPages)}`}>
         <Icon />
       </span>
     </div>
