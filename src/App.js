@@ -3,7 +3,7 @@ import TableDemo from './components/TableDemo/TableDemo';
 
 function App() {
   return (
-    <div className="text-center bg-neutral-100 h-screen flex flex-col items-center justify-center">
+    <div className="text-center bg-neutral-100 h-screen flex flex-col p-10">
       <TableDemo />
     </div>
   );
