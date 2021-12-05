@@ -29,7 +29,7 @@ const TableFooter = ({ size, itemsPerPage, selectedItemsPerPage, displayedStartI
 };
 
 TableFooter.propTypes = {
-  size: PropTypes.number,
+  size: PropTypes.oneOf(['default', 'dense']),
   itemsPerPage: PropTypes.arrayOf(PropTypes.number),
   selectedItemsPerPage: PropTypes.number,
   displayedStartIndex: PropTypes.number,

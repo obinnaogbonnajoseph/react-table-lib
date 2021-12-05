@@ -10,7 +10,7 @@ const More = ({ id, currentOptionId, onSetCurrentOptionId, moreOptions, onMoreCl
     onSetCurrentOptionId(id)
   }
 
-  const moreItems = moreOptions.map(more =>
+  const moreItems = moreOptions?.map(more =>
     <span
       key={more.text}
       onClick={onMoreClick(more.action)}
@@ -56,6 +56,8 @@ More.propTypes = {
   onMoreClick: PropTypes.func
 };
 
-More.defaultProps = {};
+More.defaultProps = {
+  moreOptions: []
+};
 
 export default More;

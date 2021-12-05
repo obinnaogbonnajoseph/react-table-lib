@@ -17,6 +17,21 @@ const TableBody = ({ rows, isSelected, checkbox, size, moreOptionsLength, conver
 
   const moreClickAction = (clickAction, row) => clickAction(convertRowToData(row))
 
+  const switchAction = cell => {
+    switch (cell.type) {
+      case 'text':
+        return <div>
+          {cell.img && <img className="mr-8" alt={cell.text} src={cell.img} />}
+          {cell.icon && <Icon className="mr-8" name={cell.icon} />}
+          <span className="text-body1-regular text-neutral-700">{cell.text}</span>
+        </div>
+      case 'template':
+        return <>{cell.template}</>
+      default:
+        return <></>
+    }
+  }
+
   return (
     <tbody>
       {
@@ -28,24 +43,11 @@ const TableBody = ({ rows, isSelected, checkbox, size, moreOptionsLength, conver
             {
               row.value.map((cell, index) =>
                 <td key={cell?.text ?? index} className={() => (`${borderBottomClass(isLast(row.length, index))} ${padding(size)}`)}>
-                  {() => {
-                    switch (cell.type) {
-                      case 'text':
-                        return <div>
-                          {cell.img && <img className="mr-8" alt={cell.text} src={cell.img} />}
-                          {cell.icon && <Icon className="mr-8" name={cell.icon} />}
-                          <span class="text-body1-regular text-neutral-700">{cell.text}</span>
-                        </div>
-                      case 'template':
-                        return <>{cell.template}</>
-                      default:
-                        return <></>
-                    }
-                  }}
+                  {switchAction(cell)}
                 </td>)
             }
             {
-              moreOptionsLength &&
+              Boolean(moreOptionsLength) &&
               <td>
                 <More id={row.id}
                   onSetCurrentOptionId={(id) => setCurrentOptionId(id)}
@@ -64,7 +66,7 @@ TableBody.propTypes = {
   rows: PropTypes.array,
   isSelected: PropTypes.func,
   checkbox: PropTypes.bool,
-  size: PropTypes.oneOf(['default' | 'dense']),
+  size: PropTypes.oneOf(['default', 'dense']),
   template: PropTypes.element,
   moreOptionsLength: PropTypes.number,
   convertRowToData: PropTypes.func,

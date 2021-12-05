@@ -1,14 +1,14 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 import './Table.css';
-import { TableHead } from './TableHead/TableHead';
-import { TableBody } from './TableBody/TableBody';
-import { TableFooter } from './TableFooter/TableFooter';
+import TableHead from './TableHead/TableHead';
+import TableBody from './TableBody/TableBody';
+import TableFooter from './TableFooter/TableFooter';
 
 
 const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, data, allSelectedRows }) => {
   const [rows, setRows] = useState([])
-  const [rowsHash, setRowsHash] = useState([])
+  const [rowsHash, setRowsHash] = useState({})
   const [selectedRows, setSelectedRows] = useState([])
   const [totalPages, setTotalPages] = useState(1)
 
@@ -28,7 +28,7 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
       case 'endIndex':
         return {
           ...state,
-          displayedEndIndex: state.page === state.totalPages ? (action.startIndex + state.paginatedData.length) : action.endIndex
+          displayedEndIndex: state.page === state.totalPages ? (action.startIndex + (state.paginatedData?.length ?? 0)) : action.endIndex
         }
       default:
         throw new Error();
@@ -175,7 +175,7 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
         checkbox={checkbox}
         checkboxVal={selectedRows.length === paginatedData.length}
         toggleAll={val => toggleAll(val)}
-        moreOptionsLength={moreOptions.length} />
+        moreOptionsLength={moreOptions?.length ?? 0} />
       <TableBody
         rows={rows}
         isSelected={(row) => isSelected(row)}
@@ -208,7 +208,7 @@ Table.propTypes = {
     icon: PropTypes.string,
     action: PropTypes.func
   })),
-  data: PropTypes.object.isRequired,
+  data: PropTypes.array.isRequired,
   allSelectedRows: PropTypes.func
 };
 

@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind screens;
+
+@font-face {
+    font-family: 'Rubik-light';
+    /* IE9 Compat Modes */
+    src: url('../src/assets/fonts/rubik/Rubik-Light.woff') format('woff'),
+        /* Pretty Modern Browsers */
+}
+
+@font-face {
+    font-family: 'Rubik-regular';
+    font-display: swap;
+    /* IE9 Compat Modes */
+    src: url('../src/assets/fonts/rubik/Rubik-Regular.woff') format('woff'),
+        /* Pretty Modern Browsers */
+}
+
+@font-face {
+    font-family: 'Rubik-medium';
+    font-display: swap;
+    /* IE9 Compat Modes */
+    src: url('../src/assets/fonts/rubik/Rubik-Medium.woff') format('woff'),
+        /* Pretty Modern Browsers */
+}
+
+@font-face {
+    font-family: 'Rubik-bold';
+    font-display: swap;
+    /* IE9 Compat Modes */
+    src: url('../src/assets/fonts/rubik/Rubik-Bold.woff') format('woff'),
+        /* Pretty Modern Browsers */
+}
+
+@layer utilities {
+  .text-t1 {
+    @apply font-baloo-bhai not-italic font-bold text-ti-1;
+  }
+
+  .text-t2 {
+    @apply font-baloo-bhai not-italic font-bold text-ti-2;
+  }
+
+  .text-t3 {
+    @apply font-baloo-bhai not-italic font-bold text-ti-3;
+  }
+
+  .text-t4 {
+    @apply font-baloo-bhai not-italic font-bold text-ti-4;
+  }
+
+  .text-t5 {
+    @apply font-baloo-bhai not-italic font-bold text-ti-5;
+  }
+
+  .text-t6 {
+    @apply font-baloo-bhai not-italic font-bold text-ti-6;
+  }
+
+  .text-h1 {
+    @apply font-rubik-medium not-italic font-medium text-h-1;
+  }
+
+  .text-h2 {
+    @apply font-rubik-medium not-italic font-medium text-h-2;
+  }
+
+  .text-h3 {
+    @apply font-rubik-medium not-italic font-medium text-h-3;
+  }
+
+  .text-h4 {
+    @apply font-rubik-medium not-italic font-medium text-h-4;
+  }
+
+  .text-subtitle1 {
+    @apply font-rubik not-italic font-normal text-s-1;
+  }
+
+  .text-subtitle2 {
+    @apply font-rubik not-italic font-normal text-s-2;
+  }
+
+  .text-body1-bold {
+    @apply font-rubik-medium not-italic font-medium text-b-1-bold;
+  }
+
+  .text-body1-regular {
+    @apply font-rubik not-italic font-normal text-b-1;
+  }
+
+  .text-body2 {
+    @apply font-rubik not-italic font-normal text-b-2;
+  }
+
+  .text-caption {
+    @apply font-rubik not-italic font-normal text-caption-fnt;
+  }
+
+  .text-input {
+    @apply font-rubik not-italic font-normal text-input-fnt;
+  }
+
+  .text-btn-1 {
+    @apply font-rubik-medium not-italic font-medium text-center text-btn-1-fnt;
+  }
+
+  .text-btn-2 {
+    @apply font-rubik-medium not-italic font-medium text-center text-btn-2-fnt;
+  }
+
+  .text-link {
+    @apply font-rubik not-italic font-normal text-link-fnt underline;
+  }
+
+  .text-btn-3 {
+    @apply font-rubik-medium not-italic font-medium text-center text-btn-3-fnt;
+  }
+
+  .text-btn-tag {
+    @apply font-rubik not-italic font-normal text-tag-fnt;
+  }
+  
+  .size-verification {
+    width: 45px;
+    height: 56px;
+  }
+
+  .input-verification {
+    width: 21px;
+    height: 24px;
+  }
+}

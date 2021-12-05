@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './TableHead.css';
 import { getRowClass, padding, borderBottomClass } from '../commons';
-import { Checkbox } from '../../Checkbox/Checkbox';
-import { Icon } from '../../Icon/Icon.lazy';
+import Checkbox from '../../Checkbox/Checkbox'
+import Icon from '../../Icon/Icon';
 
 const TableHead = ({ sortHeaders, rows, rowsHash, size, onSortColumn, moreOptionsLength, headers, checkbox, checkboxVal, toggleAll }) => {
 
@@ -36,13 +36,13 @@ const TableHead = ({ sortHeaders, rows, rowsHash, size, onSortColumn, moreOption
       </th>}
       {headers.map(header => (
         <th key={header} className={() => (`${borderBottomClass(false)} ${padding()} text-left`)}>
-          <div onClick={sortColumn(header)} className={canSort(header) && 'cursor-pointer'}>
+          <div onClick={sortColumn(header)} className={canSort(header) ? 'cursor-pointer' : ''}>
             <span className="text-subtitle2 text-neutral-700">{header}</span>
             {canSort(header) && <Icon />}
           </div>
         </th>
       ))}
-      {moreOptionsLength && <th className={borderBottomClass(false)} />}
+      {Boolean(moreOptionsLength) && <th className={borderBottomClass(false)}></th>}
     </thead>)
 };
 
@@ -53,12 +53,14 @@ TableHead.propTypes = {
   sortHeaders: PropTypes.array,
   rows: PropTypes.array,
   onSortColumn: PropTypes.func,
-  rowsHash: PropTypes.array,
+  rowsHash: PropTypes.object,
   size: PropTypes.oneOf(['default', 'dense']),
-  checkboxVal: PropTypes.func,
+  checkboxVal: PropTypes.bool,
   toggleAll: PropTypes.func
 };
 
-TableHead.defaultProps = {};
+TableHead.defaultProps = {
+  sortHeaders: []
+};
 
 export default TableHead;
