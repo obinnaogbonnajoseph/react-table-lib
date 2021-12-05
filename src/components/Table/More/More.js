@@ -13,7 +13,7 @@ const More = ({ id, currentOptionId, onSetCurrentOptionId, moreOptions, onMoreCl
   const moreItems = moreOptions?.map(more =>
     <span
       key={more.text}
-      onClick={onMoreClick(more.action)}
+      onClick={() => onMoreClick(more.action)}
       className="cursor-pointer hover:bg-neutral-600 hover:bg-opacity-5 flex items-center p-8">
       {more.icon && <Icon name={more.icon} />}
       <span>{more.text}</span>

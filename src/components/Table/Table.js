@@ -200,7 +200,7 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
 Table.propTypes = {
   caption: PropTypes.string,
   paginate: PropTypes.bool,
-  sortHeaders: PropTypes.arrayOf(PropTypes.string),
+  sortHeaders: PropTypes.arrayOf(PropTypes.object),
   size: PropTypes.oneOf(['default', 'dense']),
   checkbox: PropTypes.bool,
   moreOptions: PropTypes.arrayOf(PropTypes.exact({
