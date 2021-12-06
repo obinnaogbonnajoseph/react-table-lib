@@ -133,25 +133,25 @@ const TableDemo = () => {
   const allSelectedRows = rows => console.log('*** selected rows ***', rows.length);
   return (
     <div className="flex flex-col">
-      <div className={`my-20 ${borderBottom}`}>
+      <div className={`my-20 ${borderBottom} w-full`}>
         <Table data={normalData} caption="Normal table" />
       </div>
-      <div className={`my-20 ${borderBottom}`}>
+      <div className={`my-20 ${borderBottom} w-full`}>
         <Table data={normalData} size="dense" caption="Dense Table" />
       </div>
-      <div className={`my-20 ${borderBottom}`}>
+      <div className={`my-20 ${borderBottom} w-full`}>
         <Table sortHeaders={sortHeaders} data={normalData} caption="Table with sort column" />
       </div>
-      <div className={`my-20 ${borderBottom}`}>
+      <div className={`my-20 ${borderBottom} w-full`}>
         <Table data={normalData} checkbox={true} caption="Table with checkbox" allSelectedRows={rows => allSelectedRows(rows)} />
       </div>
-      <div className={`my-20 ${borderBottom}`}>
+      <div className={`my-20 ${borderBottom} w-full`}>
         <Table data={templateData} caption="Table with templates" />
       </div>
-      <div className={`my-20 ${borderBottom}`}>
+      <div className={`my-20 ${borderBottom} w-full`}>
         <Table data={normalData} moreOptions={moreOptions} caption="Table with more options" />
       </div>
-      <div className={`my-20 ${borderBottom}`}>
+      <div className={`my-20 ${borderBottom} w-full`}>
         <Table data={normalData} paginate={true} caption="Table with pagination" />
       </div>
     </div>

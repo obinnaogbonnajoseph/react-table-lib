@@ -165,7 +165,7 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
     })
   }
 
-  return (<div className="flex flex-col w-max bg-neutral-100">
+  return (<div className="flex flex-col w-full bg-neutral-100">
     <table>
       {caption && <caption className="text-h4 text-neutral-800 text-left">{caption}</caption>}
       <TableHead sortHeaders={sortHeaders}

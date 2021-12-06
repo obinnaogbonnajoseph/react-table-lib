@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './TableHead.css';
-import { getRowClass, padding, borderBottomClass } from '../commons';
+import { getRowClass, padding, borderBottomClass, titleCase } from '../commons';
 import Checkbox from '../../Checkbox/Checkbox'
 import Icon from '../../Icon/Icon';
 
@@ -33,13 +33,13 @@ const TableHead = ({ sortHeaders, rows, rowsHash, size, onSortColumn, moreOption
     <thead className={getRowClass(false, false, size)}>
       <tr>
         {checkbox &&
-          <th className={`${padding()} text-left ${borderBottomClass(false)}`}>
+          <th className={`${padding()} text-center ${borderBottomClass(false)}`}>
             <Checkbox value={checkboxVal} onChange={val => toggleAll(Boolean(val))} />
           </th>}
         {headers.map(header => (
-          <th key={header} className={`${borderBottomClass(false)} ${padding()} text-left`}>
+          <th key={header} className={`${borderBottomClass(false)} ${padding()} text-center`}>
             <div onClick={() => sortColumn(header)} className={canSort(header) ? 'cursor-pointer' : ''}>
-              <span className="text-subtitle2 text-neutral-700">{header}</span>
+              <span className="text-subtitle2 text-neutral-700">{titleCase(header)}</span>
               {canSort(header) && <Icon />}
             </div>
           </th>

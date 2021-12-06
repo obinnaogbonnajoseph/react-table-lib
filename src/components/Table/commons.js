@@ -17,3 +17,9 @@ export const hover = () => {
 export const getRowClass = (isLast, isSelected, size = 'default') => {
     return `${padding(size)} ${backgroundClass(isSelected)} ${borderBottomClass(isLast)} ${hover()}`
 }
+
+export const titleCase = (val) => {
+    return val.split(' ')
+        .filter(out => out)
+        .map(title => `${title.charAt(0).toUpperCase()}${title.substr(1).toLowerCase()}`).join(' ')
+}
