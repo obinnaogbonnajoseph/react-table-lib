@@ -7,14 +7,15 @@ import Icon from '../../Icon/Icon';
 import More from '../More/More';
 
 const TableBody = ({ rows, isSelected, checkbox, size, moreOptions, convertRowToData, toggleRow }) => {
-  const [currentMoreOptionId, setCurrentMoreOptionId] = useState(-5)
+  const DEFAULT_OPTION_ID = -5;
+  const [currentMoreOptionId, setCurrentMoreOptionId] = useState(DEFAULT_OPTION_ID)
 
   const isLast = (arrayLength, index) => {
     return (arrayLength - 1) === index;
   }
 
   const setCurrentOptionId = (id) => {
-    const newId = id === currentMoreOptionId ? -5 : id;
+    const newId = id === currentMoreOptionId ? DEFAULT_OPTION_ID : id;
     setCurrentMoreOptionId(newId)
   }
 
