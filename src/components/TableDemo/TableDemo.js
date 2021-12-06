@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './TableDemo.css';
 import Table from '../Table/Table';
+import Chip from '../Chip/Chip';
 
 const TableDemo = () => {
   const [data, setData] = useState([]);
@@ -138,8 +139,8 @@ const TableDemo = () => {
       joined: {
         type: 'template',
         template: val.joined.includes('4') ?
-          (<div>Hello world</div>) :
-          (<div>Hi there</div>)
+          (<Chip text="subscribed" />) :
+          (<Chip text="not subscribed" disabled={true} />)
       }
     })))
   }, [data])
@@ -153,7 +154,7 @@ const TableDemo = () => {
         <Table data={normalData} size="dense" caption="Dense Table" />
       </div>
       <div className={`my-20 ${borderBottom} w-full`}>
-        <Table sortHeaders={sortHeaders} data={normalData} caption="Table with sort column" />
+        <Table sortHeaders={sortHeaders} data={normalData} caption="Table with sort columns" />
       </div>
       <div className={`my-20 ${borderBottom} w-full`}>
         <Table data={normalData} checkbox={true} caption="Table with checkbox" allSelectedRows={rows => allSelectedRows(rows)} />
