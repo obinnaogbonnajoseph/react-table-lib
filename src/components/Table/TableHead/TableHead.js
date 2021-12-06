@@ -29,6 +29,11 @@ const TableHead = ({ sortHeaders, rows, rowsHash, size, onSortColumn, moreOption
     }
   }
 
+  const getIconName = (header) => {
+    const sort = sortHeaders.find(val => val.value === header)?.sort;
+    return sort === 'asc' ? 'arrow_upward' : 'arrow_downward';
+  }
+
   return (
     <thead className={getRowClass(false, false, size)}>
       <tr>
@@ -40,7 +45,7 @@ const TableHead = ({ sortHeaders, rows, rowsHash, size, onSortColumn, moreOption
           <th key={header} className={`${borderBottomClass(false)} ${padding()} text-center`}>
             <div onClick={() => sortColumn(header)} className={canSort(header) ? 'cursor-pointer' : ''}>
               <span className="text-subtitle2 text-neutral-700">{titleCase(header)}</span>
-              {canSort(header) && <Icon />}
+              {canSort(header) && <Icon iconName={getIconName(header)} className="material-icons ml-8" />}
             </div>
           </th>
         ))}

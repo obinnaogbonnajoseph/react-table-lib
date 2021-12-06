@@ -15,7 +15,7 @@ const More = ({ id, currentOptionId, onSetCurrentOptionId, moreOptions, onMoreCl
       key={more.text}
       onClick={() => onMoreClick(more.action)}
       className="cursor-pointer hover:bg-neutral-600 hover:bg-opacity-5 flex items-center p-8">
-      {more.icon && <Icon name={more.icon} />}
+      {more.icon && <Icon iconName={more.icon} className="material-icons" />}
       <span>{more.text}</span>
     </span>
   )
@@ -26,14 +26,14 @@ const More = ({ id, currentOptionId, onSetCurrentOptionId, moreOptions, onMoreCl
         aria-controls="menu"
         className="cursor-pointer relative"
         aria-haspopup="menu" onClick={setMoreOption}>
-        <Icon name="ellipsis-vertical" />
+        <Icon iconName="more_vert" className="material-icons" />
         {
           currentOptionId === id &&
           <div
             id="menu"
             aria-hidden={currentOptionId !== id}
             aria-expanded={currentOptionId === id}
-            aria-labelledby={id} className="flex z-10 flex-col bg-neutral-100 border-1x5 border-solid border-neutral-600 shadow-blur-8 absolute left-10">
+            aria-labelledby={id} className="flex z-10 flex-col bg-neutral-100 border-1x5 border-solid border-neutral-600 shadow-blur-8 absolute">
             {moreItems}
           </div>
         }
@@ -41,7 +41,7 @@ const More = ({ id, currentOptionId, onSetCurrentOptionId, moreOptions, onMoreCl
       {
         currentOptionId === id &&
         <div className="fixed top-0 left-0 z-0 w-screen h-screen" onClick={setMoreOption} id="menu-overlay" />
-      }ew
+      }
     </>
 
   )

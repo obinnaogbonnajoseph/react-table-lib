@@ -100,7 +100,7 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
 
   const isSelected = (row) => {
     const data = convertRowToData(row);
-    const isSelected = selectedRows.some(datum => {
+    const isSelectedVal = selectedRows.some(datum => {
       const sameLength = Object.keys(datum).length === Object.keys(data).length;
       if (sameLength) {
         const keys = Object.keys(datum);
@@ -112,12 +112,12 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
       }
       return false;
     })
-    return isSelected;
+    return isSelectedVal;
   }
 
   const changePage = (newPage) => {
     if (newPage < page && page > 1) setPage(newPage)
-    if (newPage > this.page && this.page < this.totalPages) setPage(newPage)
+    if (newPage > page && page < totalPages) setPage(newPage)
   }
 
   const onSortColumn = rows => {
@@ -185,7 +185,7 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
         size={size}
         toggleRow={(row, add) => toggleRow(row, add)}
         convertRowToData={row => convertRowToData(row)}
-        moreOptionsLength={moreOptions?.length ?? 0} />
+        moreOptions={moreOptions} />
     </table>
     {paginate && <TableFooter size={size}
       itemsPerPage={itemsPerPage}

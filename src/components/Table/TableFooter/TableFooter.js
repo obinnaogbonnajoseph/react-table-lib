@@ -14,8 +14,12 @@ const TableFooter = ({ size, itemsPerPage, selectedItemsPerPage, displayedStartI
     onSelectedItemChange(e.target.value)
   }
 
+  const pageLessClass = () => page === 1 ? 'md-inactive' : ''
+
+  const pageMoreClass = () => page === totalPages ? 'md-inactive' : ''
+
   return (
-    <div className={`${padding(size)} flex`}>
+    <div className={`${padding(size)} flex items-center`}>
       <span className="text-body1-regular text-neutral-600">Rows per page:</span>
       <select onChange={onSelectChange} value={selectValue} className="mr-16">
         {itemsPerPage.map(item =>
@@ -23,10 +27,10 @@ const TableFooter = ({ size, itemsPerPage, selectedItemsPerPage, displayedStartI
       </select>
       <span className="text-neutral-700 mr-14">{`${displayedStartIndex}-${displayedEndIndex} of ${totalPages}`}</span>
       <span onClick={() => changePage(page - 1)} className={`${cursor(page === 1)} mr-12`}>
-        <Icon />
+        <Icon iconName="chevron_left" className={`material-icons ${pageLessClass()}`} />
       </span>
       <span onClick={() => changePage(page + 1)} className={`${cursor(page === totalPages)}`}>
-        <Icon />
+        <Icon iconName="chevron_right" className={`material-icons ${pageMoreClass()}`} />
       </span>
     </div>
   )

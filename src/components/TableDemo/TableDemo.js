@@ -7,6 +7,7 @@ const TableDemo = () => {
   const [normalData, setNormalData] = useState([])
   const [sortHeaders, setSortHeaders] = useState([]);
   const [moreOptions, setMoreOptions] = useState([]);
+  const [moreOptionsData, setMoreOptionsData] = useState([]);
   const [templateData, setTemplateData] = useState([]);
 
   const borderBottom = () => {
@@ -101,17 +102,29 @@ const TableDemo = () => {
     ])
   }, [])
   useEffect(() => {
+    setMoreOptionsData([...normalData])
     setMoreOptions([
       {
-        text: 'Edit',
-        action: (data) => { console.log('*** edit ***', data) }
-      },
-      {
         text: 'Delete',
-        action: (data) => { console.log('*** delete ***', data) }
+        icon: 'delete',
+        action: (row) => {
+          setMoreOptionsData(oldVal => {
+            return [...oldVal].filter(item => {
+              const sameKeys = Object.keys(item).length === Object.keys(row).length;
+              if (sameKeys) {
+                const keys = Object.keys(item)
+                for (let i = 0; i < keys.length; i++) {
+                  const key = keys[i];
+                  if (key !== 'template' && item[key] !== row[key]) return true;
+                }
+              } else return true
+              return false
+            })
+          })
+        }
       }
     ])
-  }, [])
+  }, [normalData])
   useEffect(() => {
     setTemplateData(data.map(val => ({
       name: {
@@ -149,7 +162,7 @@ const TableDemo = () => {
         <Table data={templateData} caption="Table with templates" />
       </div>
       <div className={`my-20 ${borderBottom} w-full`}>
-        <Table data={normalData} moreOptions={moreOptions} caption="Table with more options" />
+        <Table data={moreOptionsData} moreOptions={moreOptions} caption="Table with more options" />
       </div>
       <div className={`my-20 ${borderBottom} w-full`}>
         <Table data={normalData} paginate={true} caption="Table with pagination" />
