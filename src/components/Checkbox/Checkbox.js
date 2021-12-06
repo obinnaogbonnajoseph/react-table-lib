@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './Checkbox.css';
 
-const Checkbox = ({ value, checked, disabled, error, name, onChange }) => {
-  const [modValue, setModValue] = useState(value)
+const Checkbox = ({ checked, disabled, error, name, onChange }) => {
+  console.log('*** re renders ***')
   const [modChecked, setModChecked] = useState(checked)
   useEffect(() => {
-    setModChecked(value)
-  }, [value])
+    setModChecked(checked)
+  }, [checked])
 
   const getCheckboxClass = () => {
     const baseClass = disabled ? 'base-checkbox-disabled' : error ? 'base-checkbox-error' : 'base-checkbox'
@@ -15,7 +15,6 @@ const Checkbox = ({ value, checked, disabled, error, name, onChange }) => {
   }
 
   const updateChanged = e => {
-    setModValue(e.target.checked)
     setModChecked(e.target.checked)
     onChange(e.target.checked)
   }
@@ -27,7 +26,6 @@ const Checkbox = ({ value, checked, disabled, error, name, onChange }) => {
           disabled={disabled}
           onChange={updateChanged}
           type="checkbox"
-          value={modValue}
           checked={modChecked} />
       </label>
     </div>

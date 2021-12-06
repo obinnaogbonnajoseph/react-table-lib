@@ -39,7 +39,7 @@ const TableHead = ({ sortHeaders, rows, rowsHash, size, onSortColumn, moreOption
       <tr>
         {checkbox &&
           <th className={`${padding()} text-center ${borderBottomClass(false)}`}>
-            <Checkbox value={checkboxVal} onChange={val => toggleAll(Boolean(val))} />
+            <Checkbox checked={checkboxVal} onChange={val => toggleAll(Boolean(val))} />
           </th>}
         {headers.map(header => (
           <th key={header} className={`${borderBottomClass(false)} ${padding()} text-center`}>
