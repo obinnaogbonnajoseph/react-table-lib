@@ -23,12 +23,13 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
     })
   }, [data])
 
-  const displayedEndIndexReducer = (state, action) => {
-    switch (action.type) {
+  const displayedEndIndexReducer = (state, { type, startIndex, endIndex, page, totalPages, paginatedDataLength }) => {
+    switch (type) {
       case 'endIndex':
+        const newEndIndex = page === totalPages ? (startIndex + (paginatedDataLength ?? 0)) : endIndex;
         return {
           ...state,
-          displayedEndIndex: state.page === state.totalPages ? (action.startIndex + (state.paginatedData?.length ?? 0)) : action.endIndex
+          displayedEndIndex: newEndIndex
         }
       default:
         throw new Error();
@@ -49,9 +50,11 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
       if (paginate) {
         const startIndex = selectedItemsPerPage * (page - 1);
         const endIndex = selectedItemsPerPage * page;
-        setPaginatedData(data.slice(startIndex, endIndex))
+        const newPaginatedData = data.slice(startIndex, endIndex);
+        setPaginatedData(newPaginatedData)
         setDisplayedStartIndex(startIndex + 1)
-        dispatch({ type: 'endIndex', startIndex, endIndex })
+        const newTotalPages = Math.ceil(data.length / selectedItemsPerPage);
+        dispatch({ type: 'endIndex', startIndex, endIndex, page, totalPages: newTotalPages, paginatedDataLength: newPaginatedData.length })
       } else { setPaginatedData(data) }
     }
 
@@ -115,7 +118,6 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
   const changePage = (newPage) => {
     if (newPage < page && page > 1) setPage(newPage)
     if (newPage > this.page && this.page < this.totalPages) setPage(newPage)
-    setPaginatedData();
   }
 
   const onSortColumn = rows => {

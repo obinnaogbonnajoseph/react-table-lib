@@ -41,8 +41,8 @@ const TableBody = ({ rows, isSelected, checkbox, size, moreOptionsLength, conver
               <Checkbox value={isSelected(row)} onChange={val => toggleRow(row, Boolean(val))} />
             </td>}
             {
-              row.value.map((cell, index) =>
-                <td key={cell?.text ?? index} className={`${borderBottomClass(isLast(rows.length, index))} ${padding(size)}`}>
+              row.value.map((cell, cellIndex) =>
+                <td key={cell?.text ?? cellIndex} className={`${borderBottomClass(isLast(rows.length, index))} ${padding(size)}`}>
                   {switchAction(cell)}
                 </td>)
             }

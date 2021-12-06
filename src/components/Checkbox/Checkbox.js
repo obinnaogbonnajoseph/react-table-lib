@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './Checkbox.css';
 
 const Checkbox = ({ value, checked, disabled, error, name, onChange }) => {
   const [modValue, setModValue] = useState(value)
   const [modChecked, setModChecked] = useState(checked)
+  useEffect(() => {
+    setModChecked(value)
+  }, [value])
 
   const getCheckboxClass = () => {
     const baseClass = disabled ? 'base-checkbox-disabled' : error ? 'base-checkbox-error' : 'base-checkbox'
@@ -12,9 +15,9 @@ const Checkbox = ({ value, checked, disabled, error, name, onChange }) => {
   }
 
   const updateChanged = e => {
-    setModValue(!value ? e.target.checked : value)
+    setModValue(e.target.checked)
     setModChecked(e.target.checked)
-    onChange(e.target.checked ? value : '')
+    onChange(e.target.checked)
   }
   return (
     <div className="flex flex-col">
