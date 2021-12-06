@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import './Checkbox.css';
 
 const Checkbox = ({ checked, disabled, error, name, onChange }) => {
-  console.log('*** re renders ***')
   const [modChecked, setModChecked] = useState(checked)
   useEffect(() => {
     setModChecked(checked)
