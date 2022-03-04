@@ -96,10 +96,15 @@
     "outDir": "build/dist",
     "module": "commonjs",
     "target": "es2016",
-    "lib": [],
+    "lib": [
+      "dom"
+    ],
     "sourceMap": true,
     "strict": true,
-    "jsx": "react",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react-jsx",
     "moduleResolution": "node",
     "rootDir": "src",
     "noImplicitReturns": true,
@@ -107,6 +112,9 @@
     "noImplicitAny": true,
     "strictNullChecks": true
   },
+  "include": [
+    "./src/**/*"
+  ],
   "exclude": [
     "node_modules",
     "build",
