@@ -1,29 +1,34 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useEffect, useReducer, useState } from 'react';
 import './Table.css';
 import TableHead from './TableHead/TableHead';
 import TableBody from './TableBody/TableBody';
 import TableFooter from './TableFooter/TableFooter';
+import { DerivedDataSubType, DerivedDataType, MoreOptionsDataType, RowType, SizeType, SortHeadersType } from '@models/models';
+import { removeRow } from './commons';
 
+export type HeaderType = keyof DerivedDataType;
 
-const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, data, allSelectedRows }) => {
-  const [rows, setRows] = useState([])
-  const [rowsHash, setRowsHash] = useState({})
-  const [selectedRows, setSelectedRows] = useState([])
-  const [totalPages, setTotalPages] = useState(1)
+const Table = ({ caption, sortHeaders, size = 'default', checkbox = false, 
+moreOptions, paginate = false, data, allSelectedRows = (rows: DerivedDataType[]) => console.log('*** selected rows ***', rows.length) }: 
+{caption?: string, paginate?: boolean, sortHeaders?: SortHeadersType[], size?: SizeType, checkbox?: boolean, moreOptions?: MoreOptionsDataType[], data: DerivedDataType[], allSelectedRows?: (val: any[]) => void}) => {
+  const [rows, setRows] = useState<RowType[]>([])
+  const [rowsHash, setRowsHash] = useState<Map<number, Map<HeaderType, DerivedDataSubType>>>()
+  const [selectedRows, setSelectedRows] = useState<DerivedDataType[]>([])
+  const [totalPages, setTotalPages] = useState<number>(1)
 
-  const [headers, setHeaders] = useState([])
+  const [headers, setHeaders] = useState<HeaderType[]>([])
   useEffect(() => {
-    setHeaders(oldHeaders => {
+    setHeaders((oldHeaders: HeaderType[]) => {
       if (!oldHeaders.length) {
         const sampleData = data[0];
-        if (sampleData) return Object.keys(sampleData)
+        if (sampleData) return Object.keys(sampleData) as HeaderType[]
       }
       return oldHeaders
     })
   }, [data])
 
-  const displayedEndIndexReducer = (state, { type, startIndex, endIndex, page, totalPages, paginatedDataLength }) => {
+  const displayedEndIndexReducer = (state: any, { type, startIndex, endIndex, page, totalPages, paginatedDataLength }: 
+    {type: 'endIndex' | 'startIndex', startIndex: number, endIndex: number, page: number, totalPages: number, paginatedDataLength: number}) => {
     switch (type) {
       case 'endIndex':
         const newEndIndex = page === totalPages ? (startIndex + (paginatedDataLength ?? 0)) : endIndex;
@@ -36,10 +41,10 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
     }
   }
 
-  const [selectedItemsPerPage, setSelectedItemsPerPage] = useState(10)
-  const [page, setPage] = useState(1)
-  const [paginatedData, setPaginatedData] = useState([])
-  const [displayedStartIndex, setDisplayedStartIndex] = useState(0)
+  const [selectedItemsPerPage, setSelectedItemsPerPage] = useState<number>(10)
+  const [page, setPage] = useState<number>(1)
+  const [paginatedData, setPaginatedData] = useState<DerivedDataType[]>([])
+  const [displayedStartIndex, setDisplayedStartIndex] = useState<number>(0)
   const [{ displayedEndIndex }, dispatch] = useReducer(displayedEndIndexReducer, { displayedEndIndex: 0 })
   useEffect(() => {
     const updateTotalPages = () => {
@@ -66,14 +71,17 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
   useEffect(() => {
     setRows([]);
     const newRows = [];
-    const newRowsHash = new Map();
+    const newRowsHash = new Map<number, Map<HeaderType, DerivedDataSubType>>();
     for (let pageDataIndex = 0; pageDataIndex < paginatedData.length; pageDataIndex++) {
-      const currentRow = {
+      const currentRow: {
+        id: number;
+        value: DerivedDataSubType[]
+      } = {
         id: pageDataIndex,
         value: []
       }
       const datum = paginatedData[pageDataIndex];
-      const rowHash = new Map();
+      const rowHash = new Map<HeaderType, DerivedDataSubType>();
       for (let headerIndex = 0; headerIndex < headers.length; headerIndex++) {
         const header = headers[headerIndex];
         const currentCell = datum[header];
@@ -89,8 +97,8 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
 
   const itemsPerPage = [10, 20, 30, 40, 50];
 
-  const convertRowToData = (row) => {
-    const data = {};
+  const convertRowToData = (row: RowType) => {
+    const data = {} as unknown as DerivedDataType;
     for (let i = 0; i < headers.length; i++) {
       const header = headers[i];
       data[header] = row.value[i];
@@ -98,54 +106,47 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
     return data;
   }
 
-  const isSelected = (row) => {
-    const data = convertRowToData(row);
-    const isSelectedVal = selectedRows.some(datum => {
-      const sameLength = Object.keys(datum).length === Object.keys(data).length;
+  const isSelected = (row: RowType) => {
+    const rowData = convertRowToData(row);
+    const isSelectedVal = selectedRows.some(selectedRow => {
+      const sameLength = Object.keys(selectedRow).length === Object.keys(rowData).length;
       if (sameLength) {
-        const keys = Object.keys(datum);
-        for (let i = 0; i < keys.length; i++) {
-          const key = keys[i];
-          if (key !== 'template' && datum[key] !== data[key]) return false
+        const keys = Object.keys(selectedRow) as (keyof DerivedDataType)[];
+        for (let key of keys) {
+            const val = rowData[key];
+            const subkeys = Object.keys(val) as (keyof DerivedDataSubType)[];
+            for (let subkey of subkeys) {
+                if (subkey !== 'template' && val[subkey] !== selectedRow[key][subkey]) return false;
+            }
         }
-        return true
+        return true;
       }
       return false;
     })
     return isSelectedVal;
   }
 
-  const changePage = (newPage) => {
+  const changePage = (newPage: number) => {
     if (newPage < page && page > 1) setPage(newPage)
     if (newPage > page && page < totalPages) setPage(newPage)
   }
 
-  const onSortColumn = rows => {
+  const onSortColumn = (rows: any) => {
     setRows(rows);
   }
 
-  const onSelectedItemChange = val => {
+  const onSelectedItemChange = (val: number) => {
     setPage(1);
     setSelectedItemsPerPage(val)
   }
 
-  const removeFromSelectedRows = (val, data) => {
-    const newRows = [...val].filter(item => {
-      const sameKeys = Object.keys(item).length === Object.keys(data).length;
-      if (sameKeys) {
-        const keys = Object.keys(item);
-        for (let i = 0; i < keys.length; i++) {
-          const key = keys[i];
-          if (key !== 'template' && item[key] !== data[key]) return true;
-        }
-      } else return true
-      return false
-    })
+  const removeFromSelectedRows = (rows: DerivedDataType[], selectedRow: DerivedDataType) => {
+    const newRows = removeRow(selectedRow, [...rows])
     allSelectedRows(newRows);
     return newRows;
   }
 
-  const toggleRow = (row, add) => {
+  const toggleRow = (row: RowType, add: boolean) => {
     const data = convertRowToData(row);
     setSelectedRows(val => {
       if (add) {
@@ -156,9 +157,9 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
     })
   }
 
-  const toggleAll = (add) => {
+  const toggleAll = (add: boolean) => {
     setSelectedRows(_val => {
-      let newRows = [];
+      let newRows: any[] = [];
       if (add) newRows = [...paginatedData];
       allSelectedRows(newRows)
       return newRows
@@ -199,25 +200,25 @@ const Table = ({ caption, sortHeaders, size, checkbox, moreOptions, paginate, da
   </div>)
 };
 
-Table.propTypes = {
-  caption: PropTypes.string,
-  paginate: PropTypes.bool,
-  sortHeaders: PropTypes.arrayOf(PropTypes.object),
-  size: PropTypes.oneOf(['default', 'dense']),
-  checkbox: PropTypes.bool,
-  moreOptions: PropTypes.arrayOf(PropTypes.exact({
-    text: PropTypes.string,
-    icon: PropTypes.string,
-    action: PropTypes.func
-  })),
-  data: PropTypes.array.isRequired,
-  allSelectedRows: PropTypes.func
-};
+// Table.propTypes = {
+//   caption: PropTypes.string,
+//   paginate: PropTypes.bool,
+//   sortHeaders: PropTypes.arrayOf(PropTypes.object),
+//   size: PropTypes.oneOf(['default', 'dense']),
+//   checkbox: PropTypes.bool,
+//   moreOptions: PropTypes.arrayOf(PropTypes.exact({
+//     text: PropTypes.string,
+//     icon: PropTypes.string,
+//     action: PropTypes.func
+//   })),
+//   data: PropTypes.array.isRequired,
+//   allSelectedRows: PropTypes.func
+// };
 
-Table.defaultProps = {
-  size: 'default',
-  paginate: false,
-  checkbox: false
-};
+// Table.defaultProps = {
+//   size: 'default',
+//   paginate: false,
+//   checkbox: false
+// };
 
 export default Table;

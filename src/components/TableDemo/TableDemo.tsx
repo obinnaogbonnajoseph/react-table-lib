@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './TableDemo.css';
+import { ApiData, DerivedDataSubType, DerivedDataType, MoreOptionsDataType, SortHeadersType } from '@models/models';
 import Table from '../Table/Table';
 import Chip from '../Chip/Chip';
+import { removeRow } from '../Table/commons';
 
 const TableDemo = () => {
-  const [data, setData] = useState([]);
-  const [normalData, setNormalData] = useState([])
-  const [sortHeaders, setSortHeaders] = useState([]);
-  const [moreOptions, setMoreOptions] = useState([]);
-  const [moreOptionsData, setMoreOptionsData] = useState([]);
-  const [templateData, setTemplateData] = useState([]);
+  const [data, setData] = useState<ApiData[]>([]);
+  const [normalData, setNormalData] = useState<DerivedDataType[]>([]);
+  const [sortHeaders, setSortHeaders] = useState<SortHeadersType[]>([]);
+  const [moreOptions, setMoreOptions] = useState<MoreOptionsDataType[]>([]);
+  const [moreOptionsData, setMoreOptionsData] = useState<DerivedDataType[]>([]);
+  const [templateData, setTemplateData] = useState<DerivedDataType[]>([]);
 
   const borderBottom = () => {
     return `tw-border-t-0 tw-border-l-0 tw-border-r-0 tw-border-b-2 tw-border-neutral-500 tw-border-solid tw-pb-12`
@@ -94,7 +96,7 @@ const TableDemo = () => {
     setSortHeaders([
       {
         value: 'name',
-        sort: 'asc'
+        sort: 'asc',
       },
       {
         value: 'email',
@@ -108,20 +110,8 @@ const TableDemo = () => {
       {
         text: 'Delete',
         icon: 'delete',
-        action: (row) => {
-          setMoreOptionsData(oldVal => {
-            return [...oldVal].filter(item => {
-              const sameKeys = Object.keys(item).length === Object.keys(row).length;
-              if (sameKeys) {
-                const keys = Object.keys(item)
-                for (let i = 0; i < keys.length; i++) {
-                  const key = keys[i];
-                  if (key !== 'template' && item[key] !== row[key]) return true;
-                }
-              } else return true
-              return false
-            })
-          })
+        action: (row: DerivedDataType) => {
+          setMoreOptionsData(oldVal => removeRow(row, [...oldVal]))
         }
       }
     ])
@@ -144,7 +134,6 @@ const TableDemo = () => {
       }
     })))
   }, [data])
-  const allSelectedRows = rows => console.log('*** selected rows ***', rows.length);
   return (
     <div className="flex flex-col">
       <div className={`my-20 ${borderBottom} w-full`}>
@@ -157,7 +146,7 @@ const TableDemo = () => {
         <Table sortHeaders={sortHeaders} data={normalData} caption="Table with sort columns" />
       </div>
       <div className={`my-20 ${borderBottom} w-full`}>
-        <Table data={normalData} checkbox={true} caption="Table with checkbox" allSelectedRows={rows => allSelectedRows(rows)} />
+        <Table data={normalData} checkbox={true} caption="Table with checkbox" />
       </div>
       <div className={`my-20 ${borderBottom} w-full`}>
         <Table data={templateData} caption="Table with templates" />
@@ -171,9 +160,5 @@ const TableDemo = () => {
     </div>
   )
 };
-
-TableDemo.propTypes = {};
-
-TableDemo.defaultProps = {};
 
 export default TableDemo;
