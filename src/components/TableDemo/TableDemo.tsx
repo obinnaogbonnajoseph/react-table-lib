@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './TableDemo.css';
-import { ApiData, DerivedDataSubType, DerivedDataType, MoreOptionsDataType, SortHeadersType } from '@models/models';
+import { ApiData, DerivedDataType, MoreOptionsDataType, SortHeadersType } from '@models/models';
 import Table from '../Table/Table';
 import Chip from '../Chip/Chip';
 import { removeRow } from '../Table/commons';

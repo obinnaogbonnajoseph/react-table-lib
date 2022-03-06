@@ -13,6 +13,8 @@ export type DerivedDataSubType = {
     type: 'text' | 'template';
     text?: ApiData[keyof ApiData];
     template?: JSX.Element;
+    img?: string;
+    icon?: string;
 }
 
 export type DerivedDataType = Record<keyof ApiData, DerivedDataSubType>
@@ -20,7 +22,7 @@ export type DerivedDataType = Record<keyof ApiData, DerivedDataSubType>
 export type MoreOptionsDataType = {
     text: string;
     icon: string;
-    action: (val: any) => void
+    action: (val: DerivedDataType) => void
 }
 
 export type RowType = {

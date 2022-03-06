@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import './TableFooter.css';
 import { padding } from '../commons';
 import Icon from '../../Icon/Icon';
+import { SizeType } from '@models/models';
 
-const TableFooter = ({ size, itemsPerPage, selectedItemsPerPage, displayedStartIndex, displayedEndIndex, totalPages, page, changePage, onSelectedItemChange }) => {
-  const [selectValue, setSelectedValue] = useState(selectedItemsPerPage);
+const TableFooter = ({ size, itemsPerPage, selectedItemsPerPage, 
+  displayedStartIndex, displayedEndIndex, totalPages, page, 
+  changePage, onSelectedItemChange }: { size: SizeType, itemsPerPage: number[], 
+  selectedItemsPerPage: number, displayedStartIndex: number, displayedEndIndex: number, 
+  totalPages: number, page: number, changePage: (page: number) => void, 
+  onSelectedItemChange: (val: number) => void}) => {
+  const [selectValue, setSelectedValue] = useState<number>(selectedItemsPerPage);
 
-  const cursor = (condition) => condition ? 'cursor-not-allowed' : 'cursor-pointer'
+  const cursor = (condition: boolean) => condition ? 'cursor-not-allowed' : 'cursor-pointer'
 
-  const onSelectChange = e => {
-    setSelectedValue(e.target.value);
-    onSelectedItemChange(e.target.value)
+  const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if(e.target.value) {
+      const selectedValue = Number(e.target.value);
+      setSelectedValue(selectValue);
+      onSelectedItemChange(selectedValue)
+    }
   }
 
   const pageLessClass = () => page === 1 ? 'md-inactive' : ''
@@ -35,19 +43,5 @@ const TableFooter = ({ size, itemsPerPage, selectedItemsPerPage, displayedStartI
     </div>
   )
 };
-
-TableFooter.propTypes = {
-  size: PropTypes.oneOf(['default', 'dense']),
-  itemsPerPage: PropTypes.arrayOf(PropTypes.number),
-  selectedItemsPerPage: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  displayedStartIndex: PropTypes.number,
-  displayedEndIndex: PropTypes.number,
-  totalPages: PropTypes.number,
-  page: PropTypes.number,
-  changePage: PropTypes.func,
-  onSelectedItemChange: PropTypes.func
-};
-
-TableFooter.defaultProps = {};
 
 export default TableFooter;

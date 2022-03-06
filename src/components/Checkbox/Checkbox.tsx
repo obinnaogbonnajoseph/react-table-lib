@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import './Checkbox.css';
 
-const Checkbox = ({ checked, disabled, error, name, onChange }) => {
-  const [modChecked, setModChecked] = useState(checked)
+const Checkbox = ({ checked, disabled, error, name, onChange }
+  : {checked: boolean, disabled?: boolean, error?: boolean, name?: string, onChange: (val: boolean) => void}) => {
+  const [modChecked, setModChecked] = useState<boolean>(checked)
   useEffect(() => {
     setModChecked(checked)
   }, [checked])
@@ -13,7 +13,7 @@ const Checkbox = ({ checked, disabled, error, name, onChange }) => {
     return `m-0 flex justify-center items-center cursor-pointer ${baseClass}`
   }
 
-  const updateChanged = e => {
+  const updateChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     setModChecked(e.target.checked)
     onChange(e.target.checked)
   }
@@ -30,19 +30,5 @@ const Checkbox = ({ checked, disabled, error, name, onChange }) => {
     </div>
   )
 };
-
-Checkbox.propTypes = {
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool
-  ]),
-  checked: PropTypes.bool,
-  disabled: PropTypes.bool,
-  error: PropTypes.bool,
-  name: PropTypes.string,
-  onChange: PropTypes.func
-};
-
-Checkbox.defaultProps = {};
 
 export default Checkbox;
