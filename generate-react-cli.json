@@ -1,19 +1,19 @@
 {
-  "usesTypeScript": false,
+  "usesTypeScript": true,
   "usesCssModule": false,
   "cssPreprocessor": "css",
   "testLibrary": "Testing Library",
   "component": {
     "default": {
       "path": "src/components",
-      "withStyle": true,
+      "withStyle": false,
       "withTest": false,
       "withStory": false,
       "withLazy": true
     },
     "table": {
       "path": "src/components/Table",
-      "withStyle": true,
+      "withStyle": false,
       "withTest": false,
       "withStory": false,
       "withLazy": true

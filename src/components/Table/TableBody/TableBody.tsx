@@ -1,27 +1,30 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useState } from 'react';
 import './TableBody.css';
 import { borderBottomClass, getRowClass, padding } from '../commons';
 import Checkbox from '../../Checkbox/Checkbox';
 import Icon from '../../Icon/Icon';
 import More from '../More/More';
+import { DerivedDataSubType, DerivedDataType, MoreOptionsDataType, RowType, SizeType } from '@models/models';
 
-const TableBody = ({ rows, isSelected, checkbox, size, moreOptions, convertRowToData, toggleRow }) => {
+const TableBody = ({ rows, isSelected, checkbox, size, moreOptions = [], 
+  convertRowToData, toggleRow }: {rows: RowType[], checkbox: boolean, size: SizeType, moreOptions?: MoreOptionsDataType[], 
+    toggleRow: (row: RowType, add: boolean) => void, isSelected: (row: RowType) => boolean,
+  convertRowToData: (row: RowType) => DerivedDataType}) => {
   const DEFAULT_OPTION_ID = -5;
   const [currentMoreOptionId, setCurrentMoreOptionId] = useState(DEFAULT_OPTION_ID)
 
-  const isLast = (arrayLength, index) => {
+  const isLast = (arrayLength: number, index: number) => {
     return (arrayLength - 1) === index;
   }
 
-  const setCurrentOptionId = (id) => {
+  const setCurrentOptionId = (id: number) => {
     const newId = id === currentMoreOptionId ? DEFAULT_OPTION_ID : id;
     setCurrentMoreOptionId(newId)
   }
 
-  const moreClickAction = (clickAction, row) => clickAction(convertRowToData(row))
+  const moreClickAction = (clickAction: (row: DerivedDataType) => void, row: RowType) => clickAction(convertRowToData(row))
 
-  const switchAction = cell => {
+  const switchAction = (cell: DerivedDataSubType) => {
     switch (cell.type) {
       case 'text':
         return <div>
@@ -66,18 +69,5 @@ const TableBody = ({ rows, isSelected, checkbox, size, moreOptions, convertRowTo
 
   )
 };
-
-TableBody.propTypes = {
-  rows: PropTypes.array,
-  isSelected: PropTypes.func,
-  checkbox: PropTypes.bool,
-  size: PropTypes.oneOf(['default', 'dense']),
-  template: PropTypes.element,
-  moreOptionsLength: PropTypes.number,
-  convertRowToData: PropTypes.func,
-  toggleRow: PropTypes.func
-};
-
-TableBody.defaultProps = {};
 
 export default TableBody;

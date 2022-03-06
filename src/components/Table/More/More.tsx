@@ -1,11 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import './More.css';
 import Icon from '../../Icon/Icon';
+import { DerivedDataType, MoreOptionsDataType } from '@models/models';
+import React from 'react';
 
-const More = ({ id, currentOptionId, onSetCurrentOptionId, moreOptions, onMoreClick }) => {
+const More = ({ id, currentOptionId, onSetCurrentOptionId, moreOptions, onMoreClick }: {
+  id: number, currentOptionId: number, onSetCurrentOptionId: (id: number) => void,
+  moreOptions: MoreOptionsDataType[], onMoreClick: (action: (row: DerivedDataType) => void) => void
+}) => {
 
-  const setMoreOption = (e) => {
+  const setMoreOption = (e: React.SyntheticEvent<HTMLSpanElement>) => {
     e.preventDefault();
     onSetCurrentOptionId(id)
   }
@@ -22,7 +25,7 @@ const More = ({ id, currentOptionId, onSetCurrentOptionId, moreOptions, onMoreCl
 
   return (
     <>
-      <span id={id}
+      <span id={`${id}`}
         aria-controls="menu"
         className="cursor-pointer relative"
         aria-haspopup="menu" onClick={setMoreOption}>
@@ -33,7 +36,7 @@ const More = ({ id, currentOptionId, onSetCurrentOptionId, moreOptions, onMoreCl
             id="menu"
             aria-hidden={currentOptionId !== id}
             aria-expanded={currentOptionId === id}
-            aria-labelledby={id} className="flex z-10 flex-col bg-neutral-100 border-1x5 border-solid border-neutral-600 shadow-blur-8 absolute">
+            aria-labelledby={`${id}`} className="flex z-10 flex-col bg-neutral-100 border-1x5 border-solid border-neutral-600 shadow-blur-8 absolute">
             {moreItems}
           </div>
         }
@@ -46,18 +49,6 @@ const More = ({ id, currentOptionId, onSetCurrentOptionId, moreOptions, onMoreCl
 
   )
 
-};
-
-More.propTypes = {
-  id: PropTypes.number,
-  currentOptionId: PropTypes.number,
-  onSetCurrentOptionId: PropTypes.func,
-  moreOptions: PropTypes.array,
-  onMoreClick: PropTypes.func
-};
-
-More.defaultProps = {
-  moreOptions: []
 };
 
 export default More;
