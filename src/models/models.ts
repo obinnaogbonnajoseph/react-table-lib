@@ -29,3 +29,6 @@ export type RowType = {
 }
 
 export type SizeType = 'default' | 'dense';
+
+export type HeaderType = keyof DerivedDataType;
+

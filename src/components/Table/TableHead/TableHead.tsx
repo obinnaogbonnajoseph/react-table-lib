@@ -1,17 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import './TableHead.css';
 import { getRowClass, padding, borderBottomClass, titleCase } from '../commons';
 import Checkbox from '../../Checkbox/Checkbox'
 import Icon from '../../Icon/Icon';
+import { DerivedDataSubType, HeaderType, RowType, SizeType, SortHeadersType } from '@models/models';
 
-const TableHead = ({ sortHeaders, rows, rowsHash, size, onSortColumn, moreOptionsLength, headers, checkbox, checkboxVal, toggleAll }) => {
+const TableHead = ({ sortHeaders = [], rows, rowsHash = new Map<number, Map<HeaderType, DerivedDataSubType>>(), size, 
+  onSortColumn, moreOptionsLength, headers, 
+  checkbox, checkboxVal, toggleAll }: {sortHeaders?: SortHeadersType[], rows: RowType[], size: SizeType, 
+    headers: HeaderType[], checkbox: boolean, checkboxVal:boolean, toggleAll: (val: boolean) => void, 
+    moreOptionsLength: number, rowsHash?: Map<number, Map<HeaderType, DerivedDataSubType>>, onSortColumn: (rows: RowType[]) => void}) => {
 
-  const canSort = (header) => {
+  const canSort = (header: HeaderType) => {
     return sortHeaders.some(val => val.value === header);
   }
 
-  const sortColumn = (header) => {
+  const sortColumn = (header: HeaderType) => {
     if (canSort(header)) {
       const order = sortHeaders.find(val => val.value === header)?.sort;
       if (order) {
@@ -29,7 +32,7 @@ const TableHead = ({ sortHeaders, rows, rowsHash, size, onSortColumn, moreOption
     }
   }
 
-  const getIconName = (header) => {
+  const getIconName = (header: HeaderType) => {
     const sort = sortHeaders.find(val => val.value === header)?.sort;
     return sort === 'asc' ? 'arrow_upward' : 'arrow_downward';
   }
@@ -38,11 +41,11 @@ const TableHead = ({ sortHeaders, rows, rowsHash, size, onSortColumn, moreOption
     <thead className={getRowClass(false, false, size)}>
       <tr>
         {checkbox &&
-          <th className={`${padding()} text-center ${borderBottomClass(false)}`}>
+          <th className={`${padding(size)} text-center ${borderBottomClass(false)}`}>
             <Checkbox checked={checkboxVal} onChange={val => toggleAll(Boolean(val))} />
           </th>}
         {headers.map(header => (
-          <th key={header} className={`${borderBottomClass(false)} ${padding()} text-center`}>
+          <th key={header} className={`${borderBottomClass(false)} ${padding(size)} text-center`}>
             <div onClick={() => sortColumn(header)} className={canSort(header) ? 'cursor-pointer' : ''}>
               <span className="text-subtitle2 text-neutral-700">{titleCase(header)}</span>
               {canSort(header) && <Icon iconName={getIconName(header)} className="material-icons ml-8" />}
@@ -53,23 +56,6 @@ const TableHead = ({ sortHeaders, rows, rowsHash, size, onSortColumn, moreOption
       </tr>
 
     </thead>)
-};
-
-TableHead.propTypes = {
-  checkbox: PropTypes.bool,
-  headers: PropTypes.array,
-  moreOptionsLength: PropTypes.number,
-  sortHeaders: PropTypes.array,
-  rows: PropTypes.array,
-  onSortColumn: PropTypes.func,
-  rowsHash: PropTypes.object,
-  size: PropTypes.oneOf(['default', 'dense']),
-  checkboxVal: PropTypes.bool,
-  toggleAll: PropTypes.func
-};
-
-TableHead.defaultProps = {
-  sortHeaders: []
 };
 
 export default TableHead;

@@ -3,10 +3,8 @@ import './Table.css';
 import TableHead from './TableHead/TableHead';
 import TableBody from './TableBody/TableBody';
 import TableFooter from './TableFooter/TableFooter';
-import { DerivedDataSubType, DerivedDataType, MoreOptionsDataType, RowType, SizeType, SortHeadersType } from '@models/models';
+import { DerivedDataSubType, DerivedDataType, HeaderType, MoreOptionsDataType, RowType, SizeType, SortHeadersType } from '@models/models';
 import { removeRow } from './commons';
-
-export type HeaderType = keyof DerivedDataType;
 
 const Table = ({ caption, sortHeaders, size = 'default', checkbox = false, 
 moreOptions, paginate = false, data, allSelectedRows = (rows: DerivedDataType[]) => console.log('*** selected rows ***', rows.length) }: 
@@ -131,7 +129,7 @@ moreOptions, paginate = false, data, allSelectedRows = (rows: DerivedDataType[])
     if (newPage > page && page < totalPages) setPage(newPage)
   }
 
-  const onSortColumn = (rows: any) => {
+  const onSortColumn = (rows: RowType[]) => {
     setRows(rows);
   }
 
@@ -159,7 +157,7 @@ moreOptions, paginate = false, data, allSelectedRows = (rows: DerivedDataType[])
 
   const toggleAll = (add: boolean) => {
     setSelectedRows(_val => {
-      let newRows: any[] = [];
+      let newRows: DerivedDataType[] = [];
       if (add) newRows = [...paginatedData];
       allSelectedRows(newRows)
       return newRows
@@ -199,26 +197,5 @@ moreOptions, paginate = false, data, allSelectedRows = (rows: DerivedDataType[])
       onSelectedItemChange={val => onSelectedItemChange(val)} />}
   </div>)
 };
-
-// Table.propTypes = {
-//   caption: PropTypes.string,
-//   paginate: PropTypes.bool,
-//   sortHeaders: PropTypes.arrayOf(PropTypes.object),
-//   size: PropTypes.oneOf(['default', 'dense']),
-//   checkbox: PropTypes.bool,
-//   moreOptions: PropTypes.arrayOf(PropTypes.exact({
-//     text: PropTypes.string,
-//     icon: PropTypes.string,
-//     action: PropTypes.func
-//   })),
-//   data: PropTypes.array.isRequired,
-//   allSelectedRows: PropTypes.func
-// };
-
-// Table.defaultProps = {
-//   size: 'default',
-//   paginate: false,
-//   checkbox: false
-// };
 
 export default Table;

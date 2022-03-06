@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import './TableBody.css';
 import { borderBottomClass, getRowClass, padding } from '../commons';
